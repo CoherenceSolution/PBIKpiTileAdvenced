@@ -1,0 +1,422 @@
+// KPI Performance Tile - styles are scoped under .kpt-root (no global rule).
+
+.kpt-root {
+    --kpt-focus: #0B57D0;
+
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: "Segoe UI", wf_segoe-ui_normal, helvetica, arial, sans-serif;
+    line-height: 1.25;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    &.kpt-clickable {
+        cursor: pointer;
+    }
+
+    &.kpt-shadow {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    :focus {
+        outline: none;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--kpt-focus);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--kpt-focus);
+        outline-offset: -2px;
+    }
+
+    // ------------------------------------------------------------ header
+    .kpt-header {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+
+    .kpt-header-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        min-width: 0;
+        margin-bottom: 4px;
+    }
+
+    .kpt-tech,
+    .kpt-category {
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .kpt-tech {
+        flex: 0 1 auto;
+        letter-spacing: 0.01em;
+
+        &.kpt-boxed {
+            padding: 1px 6px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+        }
+    }
+
+    .kpt-category {
+        flex: 0 1 auto;
+        margin-left: auto;
+        text-align: right;
+
+        &.kpt-pill {
+            padding: 1px 8px;
+            border-radius: 999px;
+        }
+    }
+
+    .kpt-title {
+        line-height: 1.25;
+    }
+
+    .kpt-subtitle {
+        margin-top: 2px;
+        line-height: 1.3;
+    }
+
+    .kpt-spacer {
+        flex: 1 1 0;
+        min-height: 4px;
+    }
+
+    // ------------------------------------------------------------ values
+    .kpt-value-block {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+
+    .kpt-value {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        line-height: 1.08;
+        letter-spacing: -0.01em;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .kpt-value-message {
+        line-height: 1.3;
+        letter-spacing: 0;
+    }
+
+    .kpt-secondary,
+    .kpt-target {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .kpt-secondary {
+        margin-top: 2px;
+    }
+
+    // ------------------------------------------------------------ status and comparisons
+    .kpt-status-row {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 10px;
+        min-width: 0;
+        margin-top: 10px;
+    }
+
+    .kpt-badge {
+        display: inline-flex;
+        flex: 0 1 auto;
+        align-items: center;
+        gap: 5px;
+        min-width: 0;
+        max-width: 100%;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        line-height: 1.3;
+    }
+
+    .kpt-badge-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .kpt-icon {
+        flex: 0 0 auto;
+        display: inline-block;
+        vertical-align: -0.1em;
+    }
+
+    .kpt-cmp {
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-variant-numeric: tabular-nums;
+
+        &.kpt-push {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        &.kpt-own-line {
+            flex: 0 0 auto;
+            margin-top: 6px;
+        }
+    }
+
+    .kpt-cmp-arrow {
+        margin-right: 2px;
+    }
+
+    // ------------------------------------------------------------ chart
+    .kpt-legend {
+        display: flex;
+        flex: 0 0 auto;
+        flex-wrap: wrap;
+        gap: 2px 12px;
+        margin-top: 8px;
+    }
+
+    .kpt-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    .kpt-swatch {
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+    }
+
+    .kpt-chart {
+        position: relative;
+        flex: 0 0 auto;
+        min-width: 0;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .kpt-chart-svg {
+        display: block;
+    }
+
+    .kpt-chart-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        opacity: 0.85;
+    }
+
+    .kpt-period {
+        cursor: pointer;
+
+        .kpt-mark,
+        .kpt-ghost {
+            transition: opacity 0.15s ease;
+        }
+
+        &.kpt-dim .kpt-mark {
+            opacity: 0.32;
+        }
+
+        &:focus-visible {
+            outline: none;
+
+            .kpt-hit {
+                stroke: var(--kpt-focus);
+                stroke-width: 2;
+            }
+        }
+    }
+
+    &.kpt-hoverable .kpt-period:hover .kpt-hit {
+        fill: rgba(31, 37, 35, 0.06);
+    }
+
+    &.kpt-static .kpt-period {
+        cursor: default;
+    }
+
+    .kpt-period-label,
+    .kpt-period-sub,
+    .kpt-data-label {
+        pointer-events: none;
+    }
+
+    .kpt-axis,
+    .kpt-grid {
+        pointer-events: none;
+    }
+
+    // ------------------------------------------------------------ footer
+    .kpt-footer {
+        display: flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        min-width: 0;
+        min-height: 28px;
+        margin-top: 6px;
+    }
+
+    .kpt-footer-left {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+    }
+
+    .kpt-caption {
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .kpt-warning {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        color: #8A5300;
+        border-radius: 3px;
+    }
+
+    // Stable geometry (spec 17.3): always bottom right, at least 28 px high, so that a
+    // transparent Power BI button can be laid over it.
+    .kpt-details {
+        display: inline-flex;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: flex-end;
+        min-height: 28px;
+        margin-left: auto;
+        white-space: nowrap;
+        background: transparent;
+        border-radius: 3px;
+        cursor: pointer;
+
+        &.kpt-hover-underline:hover {
+            text-decoration: underline !important;
+        }
+    }
+
+    .kpt-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    // ------------------------------------------------------------ landing page
+    .kpt-landing {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-size: 12px;
+    }
+
+    .kpt-landing-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .kpt-landing-title {
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .kpt-landing-sections {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 24px;
+    }
+
+    .kpt-landing-heading {
+        font-weight: 600;
+    }
+
+    .kpt-landing-list {
+        margin: 2px 0 0;
+        padding-left: 16px;
+
+        li {
+            margin: 1px 0;
+        }
+    }
+
+    // ------------------------------------------------------------ very small tiles
+    &.kpt-tight {
+        .kpt-spacer {
+            min-height: 0;
+        }
+
+        .kpt-header-top {
+            margin-bottom: 1px;
+        }
+
+        .kpt-status-row {
+            margin-top: 4px;
+        }
+
+        .kpt-cmp.kpt-own-line {
+            margin-top: 2px;
+        }
+    }
+
+    // ------------------------------------------------------------ motion
+    &.kpt-reduce-motion * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kpt-root * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

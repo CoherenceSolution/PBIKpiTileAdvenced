@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KPI Performance Tile - self test</title>
+<link rel="stylesheet" href="build/visual.css">
+<style>
+    body { font-family: Arial, sans-serif; padding: 16px; }
+    .fake-visual { background: #fff; margin: 8px; display: inline-block; vertical-align: top; }
+    .fake-tooltip { position: absolute; background: #222; color: #fff; font-size: 12px; padding: 6px; }
+    pre { font-size: 12px; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<pre id="result">running</pre>
+<script>window.powerbi = { visuals: { plugins: {} } };</script>
+<script src="build/meta.js"></script>
+<script src="build/visual.js"></script>
+<script src="host.js"></script>
+<script src="scenarios.js"></script>
+<script>
+(function () {
+    const H = window.KPT_HARNESS;
+    const S = window.KPT_SCENARIOS;
+    const stage = document.getElementById("stage");
+    const results = [];
+    const check = (name, condition, detail) => results.push({ name, ok: !!condition, detail: condition ? undefined : detail });
+    const clone = value => JSON.parse(JSON.stringify(value));
+    const text = (m, selector) => { const n = m.element.querySelector(selector); return n ? n.textContent : null; };
+    const fire = (node, type, init) => node.dispatchEvent(new MouseEvent(type, Object.assign({ bubbles: true, cancelable: true, clientX: 10, clientY: 10 }, init)));
+    const key = (node, k, init) => node.dispatchEvent(new KeyboardEvent("keydown", Object.assign({ key: k, bubbles: true, cancelable: true }, init)));
+    const periods = m => Array.from(m.element.querySelectorAll(".kpt-period"));
+    const withObjects = (scenario, objects) => Object.assign({}, scenario, { objects: Object.assign({}, scenario.objects, objects) });
+
+    try {
+        const reference = S[0];
+
+        // ---------------------------------------------------------------- content of the reference tile
+        let m = H.mount(stage, reference, reference.size);
+        check("technical name", text(m, ".kpt-tech") === "ACQ-003", text(m, ".kpt-tech"));
+        check("category", text(m, ".kpt-category") === "Business case", text(m, ".kpt-category"));
+        check("title", text(m, ".kpt-title") === "Unique premium calculations for VMOB", text(m, ".kpt-title"));
+        check("primary value", text(m, ".kpt-value") === "975", text(m, ".kpt-value"));
+        check("target", text(m, ".kpt-target") === "Target 1,000", text(m, ".kpt-target"));
+        check("badge near target", text(m, ".kpt-badge") === "Near target", text(m, ".kpt-badge"));
+        check("badge has icon", !!m.element.querySelector(".kpt-badge svg"));
+        const cmps = Array.from(m.element.querySelectorAll(".kpt-cmp")).map(n => n.textContent);
+        check("comparison 1", cmps[0] === "-35.3% vs previous qtr.", cmps[0]);
+        check("comparison 2", cmps[1] === "Vs same quarter last year: -21.1%", cmps[1]);
+        check("4 periods", periods(m).length === 4, periods(m).length);
+        check("caption", text(m, ".kpt-caption") === "4 quarter pairs", text(m, ".kpt-caption"));
+        check("details", text(m, ".kpt-details") === "Details →", text(m, ".kpt-details"));
+        check("projection segment only on the open period", m.element.querySelectorAll(".kpt-bar-remaining").length === 1);
+        check("projection has a pattern and an outline", m.element.querySelectorAll(".kpt-bar-pattern").length === 1 && m.element.querySelectorAll(".kpt-bar-outline").length === 1);
+        const labels = Array.from(m.element.querySelectorAll(".kpt-period-label")).map(n => n.textContent).join("|");
+        check("period labels", labels === "Q4 '25|Q1 '26|Q2 '26|Q3 '26", labels);
+        check("in progress indicator", text(m, ".kpt-period-sub") === "in progress", text(m, ".kpt-period-sub"));
+        check("aria label on tile", (m.element.querySelector(".kpt-root").getAttribute("aria-label") || "").includes("ACQ-003"));
+        check("aria label on bar", (periods(m)[3].getAttribute("aria-label") || "").includes("in progress"), periods(m)[3].getAttribute("aria-label"));
+        const details = m.element.querySelector(".kpt-details").getBoundingClientRect();
+        const rootRect = m.element.getBoundingClientRect();
+        check("details zone >= 28 px high", details.height >= 28, details.height);
+        // 370 px wide = compact mode: 12 px padding + 1 px border.
+        check("details zone anchored bottom right", rootRect.right - details.right === 13 && rootRect.bottom - details.bottom === 13, [rootRect.right - details.right, rootRect.bottom - details.bottom]);
+        m.update(withObjects(reference, { chart: { periods: 1 } }));
+        const detailsAfter = m.element.querySelector(".kpt-details").getBoundingClientRect();
+        check("details zone does not move with the number of bars", detailsAfter.right === details.right && detailsAfter.bottom === details.bottom && detailsAfter.width === details.width);
+        m.update(reference);
+
+        // ---------------------------------------------------------------- selection
+        fire(periods(m)[1], "click");
+        check("click selects the period", m.host.getSelectedKeys().join() === "c1", m.host.getSelectedKeys().join());
+        check("selected bar highlighted, others dimmed", periods(m)[1].classList.contains("kpt-selected") && periods(m)[0].classList.contains("kpt-dim"));
+        check("aria-selected", periods(m)[1].getAttribute("aria-selected") === "true");
+        fire(periods(m)[2], "click", { ctrlKey: true });
+        check("ctrl+click adds to the selection", m.host.getSelectedKeys().join() === "c1,c2", m.host.getSelectedKeys().join());
+        fire(periods(m)[2], "click");
+        check("click replaces a multi-selection", m.host.getSelectedKeys().join() === "c2", m.host.getSelectedKeys().join());
+        fire(periods(m)[2], "click");
+        check("click on the selected bar clears", m.host.getSelectedKeys().length === 0);
+        fire(periods(m)[0], "click");
+        fire(m.element.querySelector(".kpt-title"), "click");
+        check("click on the tile background clears", m.host.getSelectedKeys().length === 0);
+        m.host.applyBookmark(["c0"]);
+        check("bookmark restores the selection", periods(m)[0].classList.contains("kpt-selected") && periods(m)[3].classList.contains("kpt-dim"));
+        m.host.applyBookmark([]);
+        check("bookmark clears the selection", !m.element.querySelector(".kpt-dim"));
+
+        // ---------------------------------------------------------------- keyboard
+        const tabbable = periods(m).filter(p => p.getAttribute("tabindex") === "0");
+        check("one tab stop in the chart (roving tabindex)", tabbable.length === 1 && tabbable[0] === periods(m)[3]);
+        periods(m)[3].focus();
+        key(periods(m)[3], "ArrowLeft");
+        check("arrow key moves the focus", document.activeElement === periods(m)[2]);
+        key(periods(m)[2], "Enter");
+        check("Enter selects", m.host.getSelectedKeys().join() === "c2", m.host.getSelectedKeys().join());
+        key(m.element.querySelector(".kpt-root"), "Escape");
+        check("Escape clears", m.host.getSelectedKeys().length === 0);
+        check("details is focusable", m.element.querySelector(".kpt-details").getAttribute("tabindex") === "0");
+
+        // ---------------------------------------------------------------- tooltips and context menu
+        periods(m)[3].dispatchEvent(new PointerEvent("pointerenter", { bubbles: false, clientX: 300, clientY: 300 }));
+        const tip = m.host.stats.tooltips[m.host.stats.tooltips.length - 1];
+        const tipText = tip ? tip.dataItems.map(i => i.displayName + "=" + i.value).join("; ") : "";
+        check("bar tooltip content", tip && tip.dataItems[0].header === "Q3 '26 (in progress)" && tipText.includes("Actual=975") && tipText.includes("Projected=1,420") && tipText.includes("Projection remaining=445") && tipText.includes("Previous year=1,236") && tipText.includes("Target=1,000"), tipText);
+        check("bar tooltip carries the identity (report page tooltips)", tip && tip.identities.length === 1 && tip.identities[0].key === "c3");
+        m.element.querySelector(".kpt-value-block").dispatchEvent(new PointerEvent("pointerenter", { clientX: 40, clientY: 200 }));
+        const headTip = m.host.stats.tooltips[m.host.stats.tooltips.length - 1];
+        const headText = headTip.dataItems.map(i => i.displayName + "=" + i.value).join("; ");
+        check("value tooltip content", headText.includes("KPI=ACQ-003") && headText.includes("Unique premium calculations=975") && headText.includes("Status=Near target"), headText);
+        fire(periods(m)[1], "contextmenu");
+        check("context menu on a bar", m.host.stats.contextMenus.length === 1 && m.host.stats.contextMenus[0].id === "c1");
+        fire(m.element.querySelector(".kpt-title"), "contextmenu");
+        check("context menu on the tile", m.host.stats.contextMenus.length === 2 && !m.host.stats.contextMenus[1].id);
+
+        // ---------------------------------------------------------------- format pane
+        const model = m.visual.getFormattingModel();
+        const descriptors = [];
+        (function walk(node) {
+            if (!node || typeof node !== "object") { return; }
+            if (typeof node.objectName === "string" && typeof node.propertyName === "string") { descriptors.push(node); }
+            Object.keys(node).forEach(k => { if (k !== "revertToDefaultDescriptors") { walk(node[k]); } });
+        })(model);
+        const caps = window.KPT_META.capabilities.objects;
+        const unknown = descriptors.filter(d => !(caps[d.objectName] && caps[d.objectName].properties[d.propertyName])).map(d => d.objectName + "." + d.propertyName);
+        const declared = Object.keys(caps).reduce((n, c) => n + Object.keys(caps[c].properties).length, 0);
+        const unique = new Set(descriptors.map(d => d.objectName + "." + d.propertyName));
+        check("format pane: 11 cards", model.cards.length === 11, model.cards.map(c => c.displayName).join());
+        const names = [];
+        (function collect(node) {
+            if (!node || typeof node !== "object") { return; }
+            if (Array.isArray(node)) { node.forEach(collect); return; }
+            if (typeof node.uid === "string" && "displayName" in node) { names.push(node.displayName); }
+            Object.keys(node).forEach(k => collect(node[k]));
+        })(model.cards);
+        const bad = names.filter(n => typeof n === "string" && /^(Card|Group|Prop|Item|Role)_/.test(n));
+        check("format pane: labels are localized texts, never raw keys", names.length > 100 && bad.length === 0, names.length + " labels, raw keys: " + bad.slice(0, 5).join());
+        const chartCard = model.cards.find(c => c.uid.indexOf("chart") === 0);
+        results.push({ name: "info", ok: true, detail: "chart card groups: " + chartCard.groups.map(g => g.displayName + " (" + g.slices.length + ")").join(", ") });
+        check("format pane: every property is declared in capabilities", unknown.length === 0, unknown.join());
+        check("format pane: every declared property is exposed", unique.size === declared, unique.size + " exposed / " + declared + " declared");
+        results.push({ name: "info", ok: true, detail: "format pane cards: " + model.cards.map(c => c.displayName).join(", ") + " (" + unique.size + " properties)" });
+
+        // ---------------------------------------------------------------- settings are applied
+        m.update(withObjects(reference, { statusBadge: { nearTargetText: "Close to target", nearTargetIcon: "warning" }, target: { targetLabel: "Goal" }, mainValue: { noDataText: "N/A" }, details: { detailsText: "More" } }));
+        check("badge text setting", text(m, ".kpt-badge") === "Close to target", text(m, ".kpt-badge"));
+        check("target label setting", text(m, ".kpt-target") === "Goal 1,000", text(m, ".kpt-target"));
+        check("details text setting", text(m, ".kpt-details") === "More", text(m, ".kpt-details"));
+        m.update(withObjects(reference, { chart: { periods: 2 } }));
+        check("periods to display = 2 keeps the most recent", periods(m).length === 2 && Array.from(m.element.querySelectorAll(".kpt-period-label")).map(n => n.textContent).join("|") === "Q2 '26|Q3 '26");
+        m.update(withObjects(reference, { chart: { layout: "overlay" } }));
+        check("overlay layout renders", periods(m).length === 4 && m.host.stats.failed === 0);
+        m.update(withObjects(reference, { chart: { chartShow: false }, details: { detailsShow: false }, statusBadge: { badgeShow: false }, comparison1: { show: false } }));
+        check("components can be hidden", !m.element.querySelector(".kpt-chart-svg") && !m.element.querySelector(".kpt-details") && !m.element.querySelector(".kpt-badge") && m.element.querySelectorAll(".kpt-cmp").length === 1);
+
+        // thresholds: lower is better
+        const lowerRows = clone(reference.rows).map(r => Object.assign(r, { statusValue: 0.03 }));
+        m.update(Object.assign({}, reference, { rows: lowerRows, objects: { statusBadge: { direction: "lower" } } }));
+        check("lower is better: +3% is near target", text(m, ".kpt-badge") === "Near target", text(m, ".kpt-badge"));
+        check("lower is better: negative variance is favourable", m.element.querySelector(".kpt-cmp").classList.contains("kpt-cmp-positive"));
+        m.update(Object.assign({}, reference, { rows: clone(reference.rows).map(r => Object.assign(r, { statusValue: 0.08 })), objects: { statusBadge: { direction: "lower" } } }));
+        check("lower is better: +8% is below target", text(m, ".kpt-badge") === "Below target", text(m, ".kpt-badge"));
+        m.update(Object.assign({}, reference, { rows: clone(reference.rows).map(r => Object.assign(r, { statusValue: -0.02 })), objects: { statusBadge: { direction: "lower" } } }));
+        check("lower is better: -2% is on target", text(m, ".kpt-badge") === "On target", text(m, ".kpt-badge"));
+
+        // ---------------------------------------------------------------- actions
+        const urlRows = clone(reference.rows).map(r => Object.assign(r, { url: "https://example.org/kpi/ACQ-003" }));
+        m.update(Object.assign({}, reference, { rows: urlRows, objects: { details: { detailsAction: "url" } } }));
+        fire(m.element.querySelector(".kpt-details"), "click");
+        check("details opens the URL through the host", m.host.stats.urls.join() === "https://example.org/kpi/ACQ-003", m.host.stats.urls.join());
+        check("details click does not touch the selection", m.host.getSelectedKeys().length === 0);
+        m.update(Object.assign({}, reference, { rows: clone(reference.rows).map(r => Object.assign(r, { url: "javascript:alert(1)" })), objects: { details: { detailsAction: "url" } } }));
+        fire(m.element.querySelector(".kpt-details"), "click");
+        check("unsafe URL is never opened", m.host.stats.urls.length === 1, m.host.stats.urls.join());
+        m.update(withObjects(reference, { interaction: { tileAction: "select" } }));
+        fire(m.element.querySelector(".kpt-title"), "click");
+        check("tile action 'select' selects the header period", m.host.getSelectedKeys().join() === "c3", m.host.getSelectedKeys().join());
+        fire(m.element.querySelector(".kpt-title"), "click");
+        m.update(withObjects(reference, { details: { detailsAction: "contextMenu" } }));
+        const before = m.host.stats.contextMenus.length;
+        fire(m.element.querySelector(".kpt-details"), "click");
+        check("details can open the drill-through menu", m.host.stats.contextMenus.length === before + 1 && m.host.stats.contextMenus[before].id === "c3");
+
+        // header follows the selected bar
+        m.update(withObjects(reference, { chart: { headerPeriod: "selected" } }));
+        fire(periods(m)[0], "click");
+        check("header period 'selected' follows the clicked bar", text(m, ".kpt-value") === "1,180", text(m, ".kpt-value"));
+        fire(periods(m)[0], "click");
+        check("...and returns to the current period", text(m, ".kpt-value") === "975", text(m, ".kpt-value"));
+        m.update(withObjects(reference, { chart: { headerPeriod: "latest" } }));
+        check("header period 'latest'", text(m, ".kpt-value") === "975");
+
+        // interactions disabled by the host
+        const locked = H.mount(stage, reference, reference.size, { allowInteractions: false });
+        fire(periods(locked)[1], "click");
+        check("no selection when the host forbids interactions", locked.host.getSelectedKeys().length === 0);
+
+        // ---------------------------------------------------------------- every scenario, several sizes
+        const sizes = [{ width: 200, height: 120 }, { width: 230, height: 250 }, { width: 260, height: 260 }, { width: 300, height: 300 }, { width: 370, height: 375 }, { width: 400, height: 190 }, { width: 640, height: 400 }, { width: 900, height: 600 }, { width: 120, height: 60 }];
+        let failures = 0, overflowX = 0, overflowY = 0, clipped = [];
+        S.forEach((scenario, index) => {
+            sizes.forEach(size => {
+                const box = document.createElement("div");
+                stage.appendChild(box);
+                const instance = H.mount(box, scenario, size);
+                failures += instance.host.stats.failed;
+                const root = instance.element.querySelector(".kpt-root");
+                if (root.scrollWidth > root.clientWidth + 1) { overflowX++; clipped.push("x:" + index + "@" + size.width + "x" + size.height); }
+                if (!scenario.empty && size.height >= 120 && root.scrollHeight > root.clientHeight + 1) { overflowY++; clipped.push("y:" + index + "@" + size.width + "x" + size.height); }
+                const svg = instance.element.querySelector(".kpt-chart-svg");
+                if (svg) {
+                    Array.from(svg.querySelectorAll("rect")).forEach(r => {
+                        if (Number(r.getAttribute("height")) < 0 || Number(r.getAttribute("width")) < 0 || isNaN(Number(r.getAttribute("y")))) { failures++; clipped.push("rect:" + index); }
+                    });
+                }
+                instance.visual.destroy();
+                box.remove();
+            });
+        });
+        check("all scenarios x sizes render without failure", failures === 0, failures);
+        check("no horizontal overflow at any size", overflowX === 0, clipped.join());
+        check("no vertical overflow from 120 px high", overflowY === 0, clipped.join());
+
+        // ---------------------------------------------------------------- specific states
+        const state = index => { const box = document.createElement("div"); stage.appendChild(box); return H.mount(box, S[index], S[index].size); };
+        let s = state(3);
+        check("no target: target line removed, 'No target' badge", !s.element.querySelector(".kpt-target") && text(s, ".kpt-badge") === "No target", text(s, ".kpt-badge"));
+        check("percentage format inherited", text(s, ".kpt-value") === "21.4%" && text(s, ".kpt-secondary") === "Actual: 17.1%", text(s, ".kpt-value") + " / " + text(s, ".kpt-secondary"));
+        s = state(4);
+        check("no projection: no remaining segment", s.element.querySelectorAll(".kpt-bar-remaining").length === 0 && s.element.querySelectorAll(".kpt-bar-actual").length === 4);
+        s = state(5);
+        check("no previous year: bars and comparison 2 hidden", s.element.querySelectorAll(".kpt-bar-py").length === 0 && s.element.querySelectorAll(".kpt-cmp").length === 1 && text(s, ".kpt-caption") === "4 quarters", text(s, ".kpt-caption"));
+        s = state(6);
+        check("no history: value shown + discreet message", text(s, ".kpt-value") === "975" && !!s.element.querySelector(".kpt-chart-message"));
+        s = state(7);
+        check("projection below actual: no negative segment", s.element.querySelectorAll(".kpt-bar-remaining").length === 0);
+        periods(s)[3].dispatchEvent(new PointerEvent("pointerenter", { clientX: 300, clientY: 300 }));
+        check("projection below actual: note in the tooltip", s.host.stats.tooltips[0].dataItems.some(i => i.value === "Projection is below actual"));
+        s = state(8);
+        check("inconsistent data: warning icon, tile still rendered", !!s.element.querySelector(".kpt-warning") && text(s, ".kpt-value") === "975", s.element.querySelector(".kpt-warning") && s.element.querySelector(".kpt-warning").title);
+        results.push({ name: "info", ok: true, detail: "warning text: " + (s.element.querySelector(".kpt-warning") || {}).title });
+        s = state(9);
+        check("status code + label from the model", text(s, ".kpt-badge") === "Above limit" && s.element.querySelector(".kpt-badge").classList.contains("kpt-badge-aboveTarget"));
+        check("lower is better: positive variance is unfavourable, with sign and arrow", s.element.querySelector(".kpt-cmp").classList.contains("kpt-cmp-negative") && text(s, ".kpt-cmp-value") === "+12.4%" && !!s.element.querySelector(".kpt-cmp-arrow"), text(s, ".kpt-cmp-value"));
+        s = state(10);
+        check("no data text", text(s, ".kpt-value") === "No data", text(s, ".kpt-value"));
+        s = state(11);
+        check("secondary promoted to primary", text(s, ".kpt-value") === "842" && !s.element.querySelector(".kpt-secondary"));
+        s = state(12);
+        check("units, prefix, target variance", text(s, ".kpt-value") === "€1.2M" && (text(s, ".kpt-target") || "").includes("4.0% below target"), text(s, ".kpt-value") + " / " + text(s, ".kpt-target"));
+        s = state(14);
+        check("36 periods displayed", periods(s).length === 36);
+        s = state(15);
+        const firstLabel = s.element.querySelector(".kpt-period-label").textContent;
+        check("descending sort: newest first", firstLabel.startsWith("Nov"), firstLabel);
+        s = state(20);
+        check("high contrast: host colors used", s.element.querySelector(".kpt-root").style.backgroundColor === "rgb(0, 0, 0)" && s.element.querySelector(".kpt-bar-actual").getAttribute("fill") === "#FFFFFF");
+        s = state(23);
+        check("landing page", (s.element.textContent || "").includes("KPI Performance Tile") && (s.element.textContent || "").includes("Required") && (s.element.textContent || "").includes("Primary Value") && (s.element.textContent || "").includes("Is Current Period"));
+        s.update(S[0]);
+        check("landing page replaced once fields are added", text(s, ".kpt-value") === "975");
+
+        // French locale: separators follow the host locale
+        const fr = H.mount(stage, S[1], S[1].size, { locale: "fr-BE" });
+        results.push({ name: "info", ok: true, detail: "fr-BE rendering: " + text(fr, ".kpt-value") + " | " + text(fr, ".kpt-secondary") + " | " + text(fr, ".kpt-target") + " | " + Array.from(fr.element.querySelectorAll(".kpt-cmp")).map(n => n.textContent).join(" | ") });
+
+        // ---------------------------------------------------------------- lifecycle
+        check("rendering events balanced", m.host.stats.started === m.host.stats.finished && m.host.stats.failed === 0, JSON.stringify(m.host.stats.errors));
+        m.visual.destroy();
+        check("destroy empties the tile", m.element.querySelector(".kpt-root").childNodes.length === 0);
+        fire(m.element.querySelector(".kpt-root"), "click");
+        check("no listener left after destroy", true);
+    } catch (error) {
+        results.push({ name: "EXCEPTION", ok: false, detail: String(error && error.stack || error) });
+    }
+
+    const failed = results.filter(r => !r.ok);
+    document.getElementById("result").textContent = JSON.stringify({ total: results.filter(r => r.name !== "info").length, failed: failed.length, failures: failed, info: results.filter(r => r.name === "info").map(r => r.detail) }, null, 1);
+})();
+</script>
+</body>
+</html>

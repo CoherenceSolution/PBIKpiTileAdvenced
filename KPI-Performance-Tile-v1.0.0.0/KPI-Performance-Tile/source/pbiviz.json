@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "kpiPerformanceTile",
+        "displayName": "KPI Performance Tile",
+        "guid": "kpiPerformanceTile59011E1520EF9E99C98B9064C24ECDE2",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Compact, interactive tile presenting one KPI: identity, primary and secondary value, target, status badge, two comparisons, period history with previous year and the actual / projected split of the open period, and a Details zone.",
+        "supportUrl": "mailto:mathis.leyder@cm.be",
+        "gitHubUrl": ""
+    },
+    "apiVersion": "5.11.1",
+    "author": {
+        "name": "Leyder Mathis",
+        "email": "mathis.leyder@cm.be"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}

@@ -1,0 +1,2624 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Period",
+            "name": "period",
+            "displayNameKey": "Role_period",
+            "kind": "Grouping",
+            "description": "Required. One row per period: a date, or a text/number such as 2026-01, Q1 2026, 2026.",
+            "descriptionKey": "Role_period_Desc"
+        },
+        {
+            "displayName": "Period Sort Key",
+            "name": "periodSortKey",
+            "displayNameKey": "Role_periodSortKey",
+            "kind": "Grouping",
+            "description": "Optional numeric or date key (e.g. 202601) from the same table as Period, used for chronological sorting.",
+            "descriptionKey": "Role_periodSortKey_Desc"
+        },
+        {
+            "displayName": "Primary Value",
+            "name": "primaryValue",
+            "displayNameKey": "Role_primaryValue",
+            "kind": "Measure",
+            "description": "Required. Main figure of the tile (Actual, Projected or any business measure).",
+            "descriptionKey": "Role_primaryValue_Desc"
+        },
+        {
+            "displayName": "Secondary Value",
+            "name": "secondaryValue",
+            "displayNameKey": "Role_secondaryValue",
+            "kind": "Measure",
+            "description": "Optional smaller figure shown under the primary value.",
+            "descriptionKey": "Role_secondaryValue_Desc"
+        },
+        {
+            "displayName": "Secondary Value Label",
+            "name": "secondaryLabel",
+            "displayNameKey": "Role_secondaryLabel",
+            "kind": "Measure",
+            "description": "Optional text measure for the secondary value label (e.g. Actual).",
+            "descriptionKey": "Role_secondaryLabel_Desc"
+        },
+        {
+            "displayName": "Actual Value",
+            "name": "actualValue",
+            "displayNameKey": "Role_actualValue",
+            "kind": "Measure",
+            "description": "Recommended. Realised value per period, drawn as the main bar.",
+            "descriptionKey": "Role_actualValue_Desc"
+        },
+        {
+            "displayName": "Projected Value",
+            "name": "projectedValue",
+            "displayNameKey": "Role_projectedValue",
+            "kind": "Measure",
+            "description": "Optional projected total for the open period.",
+            "descriptionKey": "Role_projectedValue_Desc"
+        },
+        {
+            "displayName": "Projection Remaining",
+            "name": "projectionRemaining",
+            "displayNameKey": "Role_projectionRemaining",
+            "kind": "Measure",
+            "description": "Optional. MAX(0, Projected - Actual), stacked on top of Actual for the open period.",
+            "descriptionKey": "Role_projectionRemaining_Desc"
+        },
+        {
+            "displayName": "Previous Year Value",
+            "name": "previousYearValue",
+            "displayNameKey": "Role_previousYearValue",
+            "kind": "Measure",
+            "description": "Recommended. Same period of the previous year.",
+            "descriptionKey": "Role_previousYearValue_Desc"
+        },
+        {
+            "displayName": "Target Value",
+            "name": "targetValue",
+            "displayNameKey": "Role_targetValue",
+            "kind": "Measure",
+            "description": "Optional target.",
+            "descriptionKey": "Role_targetValue_Desc"
+        },
+        {
+            "displayName": "Target Variance",
+            "name": "targetVariance",
+            "displayNameKey": "Role_targetVariance",
+            "kind": "Measure",
+            "description": "Optional variance to target (absolute or %), shown when 'Show target variance' is on.",
+            "descriptionKey": "Role_targetVariance_Desc"
+        },
+        {
+            "displayName": "Comparison 1 Value",
+            "name": "comparison1Value",
+            "displayNameKey": "Role_comparison1Value",
+            "kind": "Measure",
+            "description": "Optional first variance (e.g. vs previous period). Number or prepared text.",
+            "descriptionKey": "Role_comparison1Value_Desc"
+        },
+        {
+            "displayName": "Comparison 1 Label",
+            "name": "comparison1Label",
+            "displayNameKey": "Role_comparison1Label",
+            "kind": "Measure",
+            "description": "Optional text measure for the first comparison label.",
+            "descriptionKey": "Role_comparison1Label_Desc"
+        },
+        {
+            "displayName": "Comparison 2 Value",
+            "name": "comparison2Value",
+            "displayNameKey": "Role_comparison2Value",
+            "kind": "Measure",
+            "description": "Optional second variance (e.g. vs same period last year). Number or prepared text.",
+            "descriptionKey": "Role_comparison2Value_Desc"
+        },
+        {
+            "displayName": "Comparison 2 Label",
+            "name": "comparison2Label",
+            "displayNameKey": "Role_comparison2Label",
+            "kind": "Measure",
+            "description": "Optional text measure for the second comparison label.",
+            "descriptionKey": "Role_comparison2Label_Desc"
+        },
+        {
+            "displayName": "Status Value",
+            "name": "statusValue",
+            "displayNameKey": "Role_statusValue",
+            "kind": "Measure",
+            "description": "Optional value compared with the badge thresholds (e.g. variance to target, -0.03 = -3%).",
+            "descriptionKey": "Role_statusValue_Desc"
+        },
+        {
+            "displayName": "Status Code",
+            "name": "statusCode",
+            "displayNameKey": "Role_statusCode",
+            "kind": "Measure",
+            "description": "Optional text measure: ON_TARGET, NEAR_TARGET, BELOW_TARGET, ABOVE_TARGET, NO_TARGET, NO_DATA, CUSTOM.",
+            "descriptionKey": "Role_statusCode_Desc"
+        },
+        {
+            "displayName": "Status Label",
+            "name": "statusLabel",
+            "displayNameKey": "Role_statusLabel",
+            "kind": "Measure",
+            "description": "Optional text measure overriding the badge text.",
+            "descriptionKey": "Role_statusLabel_Desc"
+        },
+        {
+            "displayName": "Is Current Period",
+            "name": "isCurrentPeriod",
+            "displayNameKey": "Role_isCurrentPeriod",
+            "kind": "Measure",
+            "description": "Recommended. 1/TRUE for the open (in progress) period, 0/FALSE otherwise.",
+            "descriptionKey": "Role_isCurrentPeriod_Desc"
+        },
+        {
+            "displayName": "KPI Technical Name",
+            "name": "kpiTechnicalName",
+            "displayNameKey": "Role_kpiTechnicalName",
+            "kind": "Measure",
+            "description": "Optional text measure, e.g. RET-001.",
+            "descriptionKey": "Role_kpiTechnicalName_Desc"
+        },
+        {
+            "displayName": "KPI Title",
+            "name": "kpiTitle",
+            "displayNameKey": "Role_kpiTitle",
+            "kind": "Measure",
+            "description": "Optional text measure for the title.",
+            "descriptionKey": "Role_kpiTitle_Desc"
+        },
+        {
+            "displayName": "KPI Subtitle",
+            "name": "kpiSubtitle",
+            "displayNameKey": "Role_kpiSubtitle",
+            "kind": "Measure",
+            "description": "Optional text measure for the subtitle.",
+            "descriptionKey": "Role_kpiSubtitle_Desc"
+        },
+        {
+            "displayName": "KPI Category",
+            "name": "kpiCategory",
+            "displayNameKey": "Role_kpiCategory",
+            "kind": "Measure",
+            "description": "Optional text measure for the category shown top right.",
+            "descriptionKey": "Role_kpiCategory_Desc"
+        },
+        {
+            "displayName": "Action URL",
+            "name": "actionUrl",
+            "displayNameKey": "Role_actionUrl",
+            "kind": "Measure",
+            "description": "Optional text measure returning an https:// URL used by the 'Open URL' actions.",
+            "descriptionKey": "Role_actionUrl_Desc"
+        },
+        {
+            "displayName": "Tooltip Fields",
+            "name": "tooltips",
+            "displayNameKey": "Role_tooltips",
+            "kind": "Measure",
+            "description": "Optional additional measures displayed in tooltips.",
+            "descriptionKey": "Role_tooltips_Desc"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "period": {
+                        "max": 1
+                    },
+                    "periodSortKey": {
+                        "max": 1
+                    },
+                    "primaryValue": {
+                        "max": 1
+                    },
+                    "secondaryValue": {
+                        "max": 1
+                    },
+                    "secondaryLabel": {
+                        "max": 1
+                    },
+                    "actualValue": {
+                        "max": 1
+                    },
+                    "projectedValue": {
+                        "max": 1
+                    },
+                    "projectionRemaining": {
+                        "max": 1
+                    },
+                    "previousYearValue": {
+                        "max": 1
+                    },
+                    "targetValue": {
+                        "max": 1
+                    },
+                    "targetVariance": {
+                        "max": 1
+                    },
+                    "comparison1Value": {
+                        "max": 1
+                    },
+                    "comparison1Label": {
+                        "max": 1
+                    },
+                    "comparison2Value": {
+                        "max": 1
+                    },
+                    "comparison2Label": {
+                        "max": 1
+                    },
+                    "statusValue": {
+                        "max": 1
+                    },
+                    "statusCode": {
+                        "max": 1
+                    },
+                    "statusLabel": {
+                        "max": 1
+                    },
+                    "isCurrentPeriod": {
+                        "max": 1
+                    },
+                    "kpiTechnicalName": {
+                        "max": 1
+                    },
+                    "kpiTitle": {
+                        "max": 1
+                    },
+                    "kpiSubtitle": {
+                        "max": 1
+                    },
+                    "kpiCategory": {
+                        "max": 1
+                    },
+                    "actionUrl": {
+                        "max": 1
+                    },
+                    "tooltips": {
+                        "max": 10
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "period"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "periodSortKey"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 1000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "primaryValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "secondaryValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "secondaryLabel"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "actualValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "projectedValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "projectionRemaining"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "previousYearValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "targetValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "targetVariance"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "comparison1Value"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "comparison1Label"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "comparison2Value"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "comparison2Label"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "statusValue"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "statusCode"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "statusLabel"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "isCurrentPeriod"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "kpiTechnicalName"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "kpiTitle"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "kpiSubtitle"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "kpiCategory"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "actionUrl"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "tooltips"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "tile": {
+            "properties": {
+                "layoutMode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (by width)",
+                                "displayNameKey": "Item_tile_layoutMode_auto"
+                            },
+                            {
+                                "value": "minimal",
+                                "displayName": "Minimal",
+                                "displayNameKey": "Item_tile_layoutMode_minimal"
+                            },
+                            {
+                                "value": "compact",
+                                "displayName": "Compact",
+                                "displayNameKey": "Item_tile_layoutMode_compact"
+                            },
+                            {
+                                "value": "standard",
+                                "displayName": "Standard",
+                                "displayNameKey": "Item_tile_layoutMode_standard"
+                            },
+                            {
+                                "value": "large",
+                                "displayName": "Large",
+                                "displayNameKey": "Item_tile_layoutMode_large"
+                            }
+                        ]
+                    }
+                },
+                "padding": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "backgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "backgroundTransparency": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "borderShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "borderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "borderWidth": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "borderRadius": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "shadow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "showWarnings": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "header": {
+            "properties": {
+                "technicalNameShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "technicalNameFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "technicalNameFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "technicalNameFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "technicalNameBackgroundShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "technicalNameBorderShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "technicalNameBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "categoryShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "categoryText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "categoryFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "categoryFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "categoryFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "categoryFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "categoryFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "categoryColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "categoryBadge": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "categoryBadgeColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "titleShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "titleText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "titleFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "titleFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "titleFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "titleFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "titleFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "titleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "titleAlign": {
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                },
+                "titleMaxLines": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "subtitleShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "subtitleText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "subtitleFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "subtitleFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "subtitleFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "subtitleFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "subtitleFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "subtitleColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "subtitleAlign": {
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                },
+                "subtitleMaxLines": {
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "mainValue": {
+            "properties": {
+                "valueFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "valueFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "valueFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "valueFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "valueFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "valueColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "valueAutoSize": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "noDataText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "formatMode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "inherit",
+                                "displayName": "Inherit from measure",
+                                "displayNameKey": "Item_mainValue_formatMode_inherit"
+                            },
+                            {
+                                "value": "number",
+                                "displayName": "Number",
+                                "displayNameKey": "Item_mainValue_formatMode_number"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Percentage",
+                                "displayNameKey": "Item_mainValue_formatMode_percent"
+                            }
+                        ]
+                    }
+                },
+                "displayUnits": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto",
+                                "displayNameKey": "Item_mainValue_displayUnits_auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None",
+                                "displayNameKey": "Item_mainValue_displayUnits_none"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands",
+                                "displayNameKey": "Item_mainValue_displayUnits_thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions",
+                                "displayNameKey": "Item_mainValue_displayUnits_millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions",
+                                "displayNameKey": "Item_mainValue_displayUnits_billions"
+                            }
+                        ]
+                    }
+                },
+                "decimalsAuto": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "thousandsSeparator": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "prefix": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "suffix": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "secondaryShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "secondaryLabel": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "secondaryDisplayUnits": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto",
+                                "displayNameKey": "Item_mainValue_secondaryDisplayUnits_auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None",
+                                "displayNameKey": "Item_mainValue_secondaryDisplayUnits_none"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands",
+                                "displayNameKey": "Item_mainValue_secondaryDisplayUnits_thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions",
+                                "displayNameKey": "Item_mainValue_secondaryDisplayUnits_millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions",
+                                "displayNameKey": "Item_mainValue_secondaryDisplayUnits_billions"
+                            }
+                        ]
+                    }
+                },
+                "secondaryFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "secondaryFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "secondaryFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "secondaryFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "secondaryFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "secondaryColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "target": {
+            "properties": {
+                "targetShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "targetLabel": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "targetDisplayUnits": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto",
+                                "displayNameKey": "Item_target_targetDisplayUnits_auto"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None",
+                                "displayNameKey": "Item_target_targetDisplayUnits_none"
+                            },
+                            {
+                                "value": "thousands",
+                                "displayName": "Thousands",
+                                "displayNameKey": "Item_target_targetDisplayUnits_thousands"
+                            },
+                            {
+                                "value": "millions",
+                                "displayName": "Millions",
+                                "displayNameKey": "Item_target_targetDisplayUnits_millions"
+                            },
+                            {
+                                "value": "billions",
+                                "displayName": "Billions",
+                                "displayNameKey": "Item_target_targetDisplayUnits_billions"
+                            }
+                        ]
+                    }
+                },
+                "targetFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "targetFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "targetFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "targetFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "targetFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "targetColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "targetSpacing": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "targetVarianceShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "targetVarianceFormat": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto",
+                                "displayNameKey": "Item_target_targetVarianceFormat_auto"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Percentage",
+                                "displayNameKey": "Item_target_targetVarianceFormat_percent"
+                            },
+                            {
+                                "value": "absolute",
+                                "displayName": "Absolute value",
+                                "displayNameKey": "Item_target_targetVarianceFormat_absolute"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "statusBadge": {
+            "properties": {
+                "badgeShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "mode": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (Status Code if provided)",
+                                "displayNameKey": "Item_statusBadge_mode_auto"
+                            },
+                            {
+                                "value": "thresholds",
+                                "displayName": "Thresholds",
+                                "displayNameKey": "Item_statusBadge_mode_thresholds"
+                            },
+                            {
+                                "value": "statusCode",
+                                "displayName": "Status Code",
+                                "displayNameKey": "Item_statusBadge_mode_statusCode"
+                            }
+                        ]
+                    }
+                },
+                "direction": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "higher",
+                                "displayName": "Higher is better",
+                                "displayNameKey": "Item_statusBadge_direction_higher"
+                            },
+                            {
+                                "value": "lower",
+                                "displayName": "Lower is better",
+                                "displayNameKey": "Item_statusBadge_direction_lower"
+                            },
+                            {
+                                "value": "neutral",
+                                "displayName": "Neutral",
+                                "displayNameKey": "Item_statusBadge_direction_neutral"
+                            }
+                        ]
+                    }
+                },
+                "onTargetThreshold": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "nearThreshold": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "aboveEnabled": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "aboveThreshold": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "showNoTarget": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "badgeFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "badgeFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "badgeFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "badgeFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "badgeFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "badgeRadius": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "badgePaddingH": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "badgePaddingV": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "badgeBorderShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "onTargetIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_onTargetIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "onTargetText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "onTargetTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "onTargetBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "onTargetBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "nearTargetIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_nearTargetIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "nearTargetText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "nearTargetTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "nearTargetBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "nearTargetBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "belowTargetIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_belowTargetIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "belowTargetText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "belowTargetTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "belowTargetBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "belowTargetBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "aboveTargetIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_aboveTargetIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "aboveTargetText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "aboveTargetTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "aboveTargetBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "aboveTargetBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noTargetIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_noTargetIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "noTargetText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "noTargetTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noTargetBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noTargetBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noDataIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_noDataIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "noDataText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "noDataTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noDataBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "noDataBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "customIcon": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "diamond",
+                                "displayName": "Diamond",
+                                "displayNameKey": "Item_statusBadge_customIcon_diamond"
+                            },
+                            {
+                                "value": "circle",
+                                "displayName": "Circle",
+                                "displayNameKey": "Item_statusBadge_customIcon_circle"
+                            },
+                            {
+                                "value": "square",
+                                "displayName": "Square",
+                                "displayNameKey": "Item_statusBadge_customIcon_square"
+                            },
+                            {
+                                "value": "check",
+                                "displayName": "Check",
+                                "displayNameKey": "Item_statusBadge_customIcon_check"
+                            },
+                            {
+                                "value": "arrowUp",
+                                "displayName": "Arrow up",
+                                "displayNameKey": "Item_statusBadge_customIcon_arrowUp"
+                            },
+                            {
+                                "value": "arrowDown",
+                                "displayName": "Arrow down",
+                                "displayNameKey": "Item_statusBadge_customIcon_arrowDown"
+                            },
+                            {
+                                "value": "warning",
+                                "displayName": "Warning",
+                                "displayNameKey": "Item_statusBadge_customIcon_warning"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "No icon",
+                                "displayNameKey": "Item_statusBadge_customIcon_none"
+                            }
+                        ]
+                    }
+                },
+                "customText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "customTextColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "customBackgroundColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "customBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "comparison1": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "label": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "labelPlacement": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "after",
+                                "displayName": "After the value",
+                                "displayNameKey": "Item_comparison1_labelPlacement_after"
+                            },
+                            {
+                                "value": "before",
+                                "displayName": "Before the value",
+                                "displayNameKey": "Item_comparison1_labelPlacement_before"
+                            }
+                        ]
+                    }
+                },
+                "labelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "format": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (measure format)",
+                                "displayNameKey": "Item_comparison1_format_auto"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Percentage",
+                                "displayNameKey": "Item_comparison1_format_percent"
+                            },
+                            {
+                                "value": "number",
+                                "displayName": "Absolute value",
+                                "displayNameKey": "Item_comparison1_format_number"
+                            },
+                            {
+                                "value": "text",
+                                "displayName": "Text prepared by the measure",
+                                "displayNameKey": "Item_comparison1_format_text"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "showSign": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "showArrow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "valueBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "position": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "inline",
+                                "displayName": "Right of the status badge",
+                                "displayNameKey": "Item_comparison1_position_inline"
+                            },
+                            {
+                                "value": "ownLine",
+                                "displayName": "On its own line",
+                                "displayNameKey": "Item_comparison1_position_ownLine"
+                            }
+                        ]
+                    }
+                },
+                "fontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "fontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "colorBySign": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "reverseLogic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "positiveColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "negativeColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "neutralColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "comparison2": {
+            "properties": {
+                "show": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "label": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "labelPlacement": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "after",
+                                "displayName": "After the value",
+                                "displayNameKey": "Item_comparison2_labelPlacement_after"
+                            },
+                            {
+                                "value": "before",
+                                "displayName": "Before the value",
+                                "displayNameKey": "Item_comparison2_labelPlacement_before"
+                            }
+                        ]
+                    }
+                },
+                "labelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "format": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (measure format)",
+                                "displayNameKey": "Item_comparison2_format_auto"
+                            },
+                            {
+                                "value": "percent",
+                                "displayName": "Percentage",
+                                "displayNameKey": "Item_comparison2_format_percent"
+                            },
+                            {
+                                "value": "number",
+                                "displayName": "Absolute value",
+                                "displayNameKey": "Item_comparison2_format_number"
+                            },
+                            {
+                                "value": "text",
+                                "displayName": "Text prepared by the measure",
+                                "displayNameKey": "Item_comparison2_format_text"
+                            }
+                        ]
+                    }
+                },
+                "decimals": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "showSign": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "showArrow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "valueBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "position": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "inline",
+                                "displayName": "Right of the status badge",
+                                "displayNameKey": "Item_comparison2_position_inline"
+                            },
+                            {
+                                "value": "ownLine",
+                                "displayName": "On its own line",
+                                "displayNameKey": "Item_comparison2_position_ownLine"
+                            }
+                        ]
+                    }
+                },
+                "fontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "fontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "fontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "colorBySign": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "reverseLogic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "positiveColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "negativeColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "neutralColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "chart": {
+            "properties": {
+                "chartShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "periods": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "granularity": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto",
+                                "displayNameKey": "Item_chart_granularity_auto"
+                            },
+                            {
+                                "value": "month",
+                                "displayName": "Month",
+                                "displayNameKey": "Item_chart_granularity_month"
+                            },
+                            {
+                                "value": "quarter",
+                                "displayName": "Quarter",
+                                "displayNameKey": "Item_chart_granularity_quarter"
+                            },
+                            {
+                                "value": "year",
+                                "displayName": "Year",
+                                "displayNameKey": "Item_chart_granularity_year"
+                            }
+                        ]
+                    }
+                },
+                "sort": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "asc",
+                                "displayName": "Chronological, oldest first",
+                                "displayNameKey": "Item_chart_sort_asc"
+                            },
+                            {
+                                "value": "desc",
+                                "displayName": "Chronological, newest first",
+                                "displayNameKey": "Item_chart_sort_desc"
+                            },
+                            {
+                                "value": "provided",
+                                "displayName": "Order of the field",
+                                "displayNameKey": "Item_chart_sort_provided"
+                            }
+                        ]
+                    }
+                },
+                "headerPeriod": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Current period, else latest",
+                                "displayNameKey": "Item_chart_headerPeriod_auto"
+                            },
+                            {
+                                "value": "latest",
+                                "displayName": "Latest period",
+                                "displayNameKey": "Item_chart_headerPeriod_latest"
+                            },
+                            {
+                                "value": "selected",
+                                "displayName": "Selected bar, else current / latest",
+                                "displayNameKey": "Item_chart_headerPeriod_selected"
+                            }
+                        ]
+                    }
+                },
+                "layout": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "grouped",
+                                "displayName": "Grouped",
+                                "displayNameKey": "Item_chart_layout_grouped"
+                            },
+                            {
+                                "value": "overlay",
+                                "displayName": "Overlay",
+                                "displayNameKey": "Item_chart_layout_overlay"
+                            }
+                        ]
+                    }
+                },
+                "actualColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "previousYearShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "previousYearColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "barSpacing": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "barMaxWidth": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "barRadius": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "projectionShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "projectionColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "projectionPattern": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "hatched",
+                                "displayName": "Hatched",
+                                "displayNameKey": "Item_chart_projectionPattern_hatched"
+                            },
+                            {
+                                "value": "dotted",
+                                "displayName": "Dotted",
+                                "displayNameKey": "Item_chart_projectionPattern_dotted"
+                            },
+                            {
+                                "value": "none",
+                                "displayName": "None (outline only)",
+                                "displayNameKey": "Item_chart_projectionPattern_none"
+                            }
+                        ]
+                    }
+                },
+                "projectionPatternColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "projectionBorder": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "projectionBorderColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "axisShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "axisColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "gridlinesShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "periodLabelsShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "periodLabelFormat": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "auto",
+                                "displayName": "Auto (compact)",
+                                "displayNameKey": "Item_chart_periodLabelFormat_auto"
+                            },
+                            {
+                                "value": "provided",
+                                "displayName": "As provided",
+                                "displayNameKey": "Item_chart_periodLabelFormat_provided"
+                            }
+                        ]
+                    }
+                },
+                "dataLabelsShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "labelFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "labelFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "labelFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "labelFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "labelFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "labelColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "currentIndicatorShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "currentIndicatorText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "legendShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "captionShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "captionText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "actualLabel": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "projectedLabel": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "remainingLabel": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "previousYearLabel": {
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        },
+        "details": {
+            "properties": {
+                "detailsShow": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "detailsText": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "detailsFontFamily": {
+                    "type": {
+                        "formatting": {
+                            "fontFamily": true
+                        }
+                    }
+                },
+                "detailsFontSize": {
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "detailsFontBold": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "detailsFontItalic": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "detailsFontUnderline": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "detailsColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "detailsUnderlineOnHover": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "detailsMinWidth": {
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "detailsAction": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "none",
+                                "displayName": "None (overlay a Power BI button)",
+                                "displayNameKey": "Item_details_detailsAction_none"
+                            },
+                            {
+                                "value": "url",
+                                "displayName": "Open URL",
+                                "displayNameKey": "Item_details_detailsAction_url"
+                            },
+                            {
+                                "value": "contextMenu",
+                                "displayName": "Open drill-through menu",
+                                "displayNameKey": "Item_details_detailsAction_contextMenu"
+                            },
+                            {
+                                "value": "select",
+                                "displayName": "Select period / host event",
+                                "displayNameKey": "Item_details_detailsAction_select"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "interaction": {
+            "properties": {
+                "selectionEnabled": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "multiSelect": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "tileAction": {
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "none",
+                                "displayName": "None",
+                                "displayNameKey": "Item_interaction_tileAction_none"
+                            },
+                            {
+                                "value": "select",
+                                "displayName": "Select KPI",
+                                "displayNameKey": "Item_interaction_tileAction_select"
+                            },
+                            {
+                                "value": "url",
+                                "displayName": "Open URL",
+                                "displayNameKey": "Item_interaction_tileAction_url"
+                            },
+                            {
+                                "value": "hostEvent",
+                                "displayName": "Host event (Embedded)",
+                                "displayNameKey": "Item_interaction_tileAction_hostEvent"
+                            }
+                        ]
+                    }
+                },
+                "staticUrl": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "hoverStyle": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "accessibility": {
+            "properties": {
+                "a11yTitle": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "a11yDescription": {
+                    "type": {
+                        "text": true
+                    }
+                },
+                "keyboardFocus": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "focusColor": {
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "enforceContrast": {
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "reduceMotion": {
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        }
+    },
+    "sorting": {
+        "default": {}
+    },
+    "tooltips": {
+        "supportedTypes": {
+            "default": true,
+            "canvas": true
+        },
+        "roles": [
+            "tooltips"
+        ],
+        "supportEnhancedTooltips": true
+    },
+    "supportsHighlight": true,
+    "supportsKeyboardFocus": true,
+    "supportsLandingPage": true,
+    "supportsEmptyDataView": true,
+    "supportsMultiVisualSelection": true,
+    "suppressDefaultTitle": true,
+    "privileges": []
+}

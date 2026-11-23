@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KPI Performance Tile - rendering harness</title>
+<link rel="stylesheet" href="build/visual.css">
+<style>
+    body { margin: 0; padding: 24px; background: #EEF0F2; font-family: "Segoe UI", Arial, sans-serif; color: #1F2523; }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    p.lead { margin: 0 0 20px; font-size: 13px; color: #5F6B66; }
+    .gallery { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+    .case h2 { font-size: 13px; margin: 0 0 2px; }
+    .case small { display: block; font-size: 11px; color: #5F6B66; margin-bottom: 8px; max-width: 360px; }
+    .fake-visual { background: #FFFFFF; overflow: hidden; }
+    .fake-tooltip { position: absolute; z-index: 10; background: #252423; color: #FFFFFF; font-size: 12px; padding: 8px 10px; border-radius: 3px; min-width: 150px; pointer-events: none; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .fake-tooltip-header { font-weight: 600; margin-bottom: 4px; }
+    .fake-tooltip-row { display: flex; justify-content: space-between; gap: 16px; line-height: 1.5; }
+    .fake-tooltip-row i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+    #log { margin-top: 24px; font: 11px/1.5 Consolas, monospace; color: #5F6B66; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>KPI Performance Tile - rendering harness</h1>
+<p class="lead">Loads the JS and CSS extracted from the packaged .pbiviz and renders them against a fake Power BI host. Hover the bars, click them, use Tab and the arrow keys.</p>
+<div class="gallery" id="gallery"></div>
+<div id="log"></div>
+<script>window.powerbi = { visuals: { plugins: {} } };</script>
+<script src="build/meta.js"></script>
+<script src="build/visual.js"></script>
+<script src="host.js"></script>
+<script src="scenarios.js"></script>
+<script>
+(function () {
+    const params = new URLSearchParams(location.search);
+    const only = params.get("only");
+    const logNode = document.getElementById("log");
+    const log = text => { logNode.textContent += text + "\n"; };
+    const gallery = document.getElementById("gallery");
+    window.KPT_MOUNTED = [];
+    window.KPT_SCENARIOS.forEach((scenario, index) => {
+        if (only !== null && !only.split(",").includes(String(index))) { return; }
+        const box = document.createElement("div");
+        box.className = "case";
+        const h2 = document.createElement("h2");
+        h2.textContent = index + ". " + scenario.title;
+        const small = document.createElement("small");
+        small.textContent = scenario.note + " (" + scenario.size.width + " x " + scenario.size.height + ")";
+        box.appendChild(h2);
+        box.appendChild(small);
+        gallery.appendChild(box);
+        try {
+            const mounted = window.KPT_HARNESS.mount(box, scenario, scenario.size, { log });
+            window.KPT_MOUNTED.push(mounted);
+            if (mounted.host.stats.failed) { h2.style.color = "#B3261E"; }
+        } catch (error) {
+            h2.style.color = "#B3261E";
+            log("EXCEPTION in " + scenario.title + ": " + (error && error.stack || error));
+        }
+    });
+})();
+</script>
+</body>
+</html>

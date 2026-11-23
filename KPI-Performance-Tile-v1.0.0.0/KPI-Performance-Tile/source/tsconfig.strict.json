@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "strict": true,
+        "strictNullChecks": true,
+        "noEmit": true,
+        "sourceMap": false,
+        "declaration": false
+    },
+    "files": [
+        "./src/visual.ts",
+        "./scripts/generate-capabilities.ts"
+    ]
+}

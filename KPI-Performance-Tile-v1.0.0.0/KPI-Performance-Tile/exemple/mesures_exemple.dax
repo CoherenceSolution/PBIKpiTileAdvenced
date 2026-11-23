@@ -1,0 +1,118 @@
+// =====================================================================================
+// KPI Performance Tile - mesures DAX d'exemple (RET-001 Monthly Active Users)
+// -------------------------------------------------------------------------------------
+// Principe du cahier des charges (3.2) : Power BI calcule, le visual présente.
+// Ces mesures sont des MODELES à adapter à votre modèle. Hypothèses :
+//   - une table de dates marquée  'Calendar'[Date], avec 'Calendar'[Month] (date du 1er du
+//     mois, format "MMM yyyy") utilisée dans le rôle Period ;
+//   - une table de faits  Usage[Date], Usage[UserId] reliée à 'Calendar'[Date] ;
+//   - une table Targets[KPI Code], Targets[Month], Targets[Target] (facultative).
+// Elles n'ont pas pu être exécutées dans l'environnement de développement du visual :
+// à valider dans votre modèle.
+// =====================================================================================
+
+// ---------- Période courante -------------------------------------------------------
+// 1 pour le mois en cours (période ouverte), 0 sinon.  -> rôle "Is Current Period"
+Is Current Month =
+VAR CurrentKey = YEAR ( TODAY () ) * 100 + MONTH ( TODAY () )
+VAR RowKey = YEAR ( MAX ( 'Calendar'[Date] ) ) * 100 + MONTH ( MAX ( 'Calendar'[Date] ) )
+RETURN
+    IF ( RowKey = CurrentKey, 1, 0 )
+
+// ---------- Valeurs ------------------------------------------------------------------
+// -> rôle "Actual Value" (barre pleine du graphique)
+MAU Actual =
+DISTINCTCOUNT ( Usage[UserId] )
+
+// Projection de fin de mois. EXEMPLE NAIF (prorata des jours écoulés) : remplacez-le par
+// votre règle métier. Vide pour les mois clôturés.  -> rôle "Projected Value"
+MAU Projected =
+VAR DaysElapsed = DAY ( TODAY () ) - 1
+VAR DaysInMonth = DAY ( EOMONTH ( TODAY (), 0 ) )
+RETURN
+    IF (
+        [Is Current Month] = 1 && DaysElapsed > 0,
+        DIVIDE ( [MAU Actual] * DaysInMonth, DaysElapsed )
+    )
+
+// Jamais négatif (cahier des charges 13.2).  -> rôle "Projection Remaining"
+MAU Projection Remaining =
+IF ( [Is Current Month] = 1, MAX ( 0, [MAU Projected] - [MAU Actual] ) )
+
+// Valeur de référence métier : projection pour la période ouverte, réalisé sinon.
+// -> rôle "Primary Value"
+MAU Display Value =
+IF ( [Is Current Month] = 1, COALESCE ( [MAU Projected], [MAU Actual] ), [MAU Actual] )
+
+// Affichée en petit sous la valeur principale, uniquement pour la période ouverte.
+// -> rôle "Secondary Value"
+MAU Secondary =
+IF ( [Is Current Month] = 1, [MAU Actual] )
+
+// ---------- Références ---------------------------------------------------------------
+// -> rôle "Previous Year Value"
+MAU Previous Year =
+CALCULATE ( [MAU Actual], SAMEPERIODLASTYEAR ( 'Calendar'[Date] ) )
+
+MAU Previous Month =
+CALCULATE ( [MAU Actual], DATEADD ( 'Calendar'[Date], -1, MONTH ) )
+
+// -> rôle "Target Value" (laisser le rôle vide pour un KPI sans target, ex. Stickiness)
+MAU Target =
+CALCULATE ( MAX ( Targets[Target] ), Targets[KPI Code] = "RET-001" )
+
+// ---------- Comparaisons (cahier des charges 10.3) -----------------------------------
+// Formater ces deux mesures en pourcentage (ex. 0.0%) : le visual hérite du format.
+// -> rôle "Comparison 1 Value"
+MAU Var vs Previous Month % =
+DIVIDE ( [MAU Display Value] - [MAU Previous Month], [MAU Previous Month] )
+
+// -> rôle "Comparison 2 Value"
+MAU Var vs Previous Year % =
+DIVIDE ( [MAU Display Value] - [MAU Previous Year], [MAU Previous Year] )
+
+// Libellés dynamiques (facultatifs) : permettent plus tard de brancher la table de
+// traduction FR/NL sans modifier le visual.  -> rôles "Comparison 1 Label" / "Comparison 2 Label"
+MAU Comparison 1 Label = "vs previous month"
+MAU Comparison 2 Label = "Vs same month last year:"
+
+// ---------- Statut ---------------------------------------------------------------------
+// Mode A (Thresholds) : écart relatif à la target, comparé aux seuils du panneau de format.
+// -> rôle "Status Value"   (-0.03 = -3 %)
+MAU Status Value =
+DIVIDE ( [MAU Display Value] - [MAU Target], [MAU Target] )
+
+// Mode B (Status Code) : la règle métier complète reste dans DAX.  -> rôle "Status Code"
+MAU Status Code =
+VAR Gap = [MAU Status Value]
+RETURN
+    SWITCH (
+        TRUE (),
+        ISBLANK ( [MAU Display Value] ), "NO_DATA",
+        ISBLANK ( [MAU Target] ), "NO_TARGET",
+        Gap >= 0, "ON_TARGET",
+        Gap >= -0.05, "NEAR_TARGET",
+        "BELOW_TARGET"
+    )
+
+// ---------- Ecart à la target (facultatif) -------------------------------------------
+// -> rôle "Target Variance" (affiché si "Show target variance" est activé)
+MAU Target Variance % =
+DIVIDE ( [MAU Display Value] - [MAU Target], [MAU Target] )
+
+// ---------- Textes d'identification (facultatifs) -------------------------------------
+// Pour des textes fixes, préférez les champs "Text" du panneau de format (Header) : une
+// mesure constante renvoie une valeur pour TOUTES les périodes du calendrier, y compris
+// futures. Si vous passez par une mesure, limitez-la aux périodes ayant des données :
+MAU Technical Name =
+IF ( NOT ISBLANK ( [MAU Display Value] ), "RET-001" )
+
+// ---------- Variante trimestrielle / annuelle -----------------------------------------
+// Même schéma avec 'Calendar'[Quarter] ou 'Calendar'[Year] dans Period, DATEADD ( ..., -1, QUARTER )
+// ou ( ..., -1, YEAR ) pour la période précédente, et un "Is Current Quarter" / "Is Current Year".
+
+// ---------- Stickiness (RET-003) ---------------------------------------------------------
+// Stickiness Actual    = DIVIDE ( [Average DAU], [MAU Actual] )
+// Stickiness Projected = DIVIDE ( [Average DAU], [MAU Projected] )
+// Format "0.0%". Laisser Target Value vide : la ligne Target disparaît et le badge affiche
+// "No target" (désactivable).

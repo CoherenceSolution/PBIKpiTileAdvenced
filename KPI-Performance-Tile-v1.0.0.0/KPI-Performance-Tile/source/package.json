@@ -1,0 +1,31 @@
+{
+    "name": "kpi-performance-tile",
+    "description": "KPI Performance Tile - Power BI custom visual",
+    "version": "1.0.0",
+    "private": true,
+    "author": "Leyder Mathis <mathis.leyder@cm.be>",
+    "license": "UNLICENSED",
+    "scripts": {
+        "generate": "tsx scripts/generate-capabilities.ts",
+        "start": "npm run generate && pbiviz start --all-locales",
+        "package": "npm run generate && pbiviz package --all-locales",
+        "lint": "eslint .",
+        "test": "vitest run",
+        "check": "tsc -p tsconfig.strict.json"
+    },
+    "dependencies": {
+        "powerbi-visuals-api": "5.11.1",
+        "powerbi-visuals-utils-formattingmodel": "^7.1.0",
+        "powerbi-visuals-utils-formattingutils": "^7.0.0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^8.8.0",
+        "eslint": "^9.11.1",
+        "eslint-plugin-powerbi-visuals": "^1.0.0",
+        "jsdom": "^31.0.1",
+        "powerbi-visuals-tools": "^7.2.1",
+        "tsx": "^4.23.15",
+        "typescript": "5.5.4",
+        "vitest": "^5.1.1"
+    }
+}
